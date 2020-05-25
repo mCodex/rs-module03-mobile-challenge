@@ -40,6 +40,12 @@ const CartProvider: React.FC = ({ children }) => {
     loadProducts();
   }, []);
 
+  useEffect(() => {
+    if (products && products.length > 0) {
+      AsyncStorage.setItem('@products', JSON.stringify(products));
+    }
+  }, [products]);
+
   const increment = useCallback(
     async id => {
       const productIndex = products.findIndex(p => p.id === id);
@@ -48,7 +54,7 @@ const CartProvider: React.FC = ({ children }) => {
 
       productsClone[productIndex].quantity += 1;
 
-      await AsyncStorage.setItem('@products', JSON.stringify(productsClone));
+      // await AsyncStorage.setItem('@products', JSON.stringify(productsClone));
 
       setProducts(productsClone);
     },
@@ -67,7 +73,7 @@ const CartProvider: React.FC = ({ children }) => {
         productsClone.splice(productIndex, 1);
       }
 
-      await AsyncStorage.setItem('@products', JSON.stringify(productsClone));
+      // await AsyncStorage.setItem('@products', JSON.stringify(productsClone));
 
       setProducts(productsClone);
     },
